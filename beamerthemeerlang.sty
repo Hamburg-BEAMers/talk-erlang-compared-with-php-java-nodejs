@@ -1,0 +1,69 @@
+
+\mode<presentation>
+
+\newif\ifbeamer@secheader
+\beamer@secheaderfalse
+
+\DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
+\ProcessOptionsBeamer
+
+\definecolor{erlang}{RGB}{140,0,47}
+
+\setbeamercolor{block title}{use=structure,fg=white,bg=erlang}
+\setbeamercolor{block title alerted}{use=alerted text,fg=white,bg=alerted text.fg!75!black}
+\setbeamercolor{block title example}{use=example text,fg=white,bg=example text.fg!75!black}
+
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg!10!bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!10!bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg!10!bg}
+
+\setbeamercolor*{palette primary}{use=structure,fg=white,bg=erlang}
+\setbeamercolor*{palette secondary}{use=structure,fg=white,bg=erlang!90!black}
+\setbeamercolor*{palette tertiary}{use=structure,fg=white,bg=erlang}
+\setbeamercolor*{palette quaternary}{fg=white,bg=black}
+
+\setbeamercolor*{sidebar}{use=structure,bg=structure.fg}
+
+\setbeamercolor*{palette sidebar primary}{use=structure,fg=structure.fg!10}
+\setbeamercolor*{palette sidebar secondary}{fg=white}
+\setbeamercolor*{palette sidebar tertiary}{use=structure,fg=structure.fg!50}
+\setbeamercolor*{palette sidebar quaternary}{fg=white}
+
+\setbeamercolor*{titlelike}{parent=palette primary}
+
+\setbeamercolor*{separation line}{}
+\setbeamercolor*{fine separation line}{}
+
+\setbeamercolor*{item}{fg=erlang}
+\setbeamercolor{itemize item}{fg=erlang}
+% END COLORTHEME
+
+% START INNERTHEME
+\setbeamertemplate{blocks}[rounded][shadow=true]
+%\setbeamertemplate{items}[ball]
+\setbeamertemplate{sections/subsections in toc}[ball]
+\setbeamertemplate{title page}[default][colsep=-4bp,rounded=true,shadow=true]
+\setbeamertemplate{part page}[default][colsep=-4bp,rounded=true,shadow=true]
+% STOP INNERTHEME
+
+
+% START OUTERTHEME
+\setbeamercolor*{author in head/foot}{parent=palette tertiary}
+\setbeamercolor*{title in head/foot}{parent=palette secondary}
+\setbeamercolor*{date in head/foot}{parent=palette primary}
+
+\setbeamercolor*{section in head/foot}{parent=palette tertiary}
+\setbeamercolor*{subsection in head/foot}{parent=palette primary}
+
+%\setbeamersize{text margin left=1em,text margin right=1em}
+%% START INNERTHEME
+
+\hypersetup{
+  colorlinks,
+  citecolor=green,
+  linkcolor=white, % Internal PDF Links
+  urlcolor=blue % External HREF links
+}
+
+\mode
+<all>
