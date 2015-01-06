@@ -16,15 +16,25 @@ and how does it work?
 # About
 \centering
 
-* Programming Language from 1987 at Ericsson
+* Programming Language from 1987 by Ericsson
 * Functional & Concurrent
 * Strong dynamicaly typed
-* Influenced
-    * By: Prolog
+* Influencing
+    * From: Prolog
     * To: Clojure, Scala, Elixir
 * Running on `BEAM` Virtual Machine
 * Using `OTP Framework`
 * Named after _Agner Krarup Erlang_ or __Er__icsson __lang__uage
+
+
+
+# Erlang Applications
+
+* membase
+* riak
+* rabbitmq
+* CouchDB
+* eJabberD
 
 
 # Comparing
@@ -41,8 +51,9 @@ and how does it work?
 # Comparision: HTTP Requests
 
 \centering
+
 \begin{Huge}
-How are they handled in these Languages?
+HTTP in each Runtime
 \end{Huge}
 
 
@@ -58,8 +69,32 @@ How are they handled in these Languages?
 
 \centering
 
-![](img/phpfcgi_with_dpi.png)
+```javascript
+var http = require("http");
 
+var handler = function(request, response) {
+  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.write("Hello World!");
+  response.end();
+};
+
+var server = http.createServer(handler);
+ 
+server.listen(80);
+```
+
+# Java: HTTP Request
+
+\centering
+
+![](img/tomcat_architecture_with_dpi.png)
+
+
+# Erlang: HTTP Request
+
+\centering
+
+TODO
 
 
 # BEAM Virtual Machine
