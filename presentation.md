@@ -62,27 +62,25 @@ and how does it work?
 * ...
     
 
-
-
-# Comparing Runtimes
-
-\centering
-\large
-
-| Erlang 	| Java 	| NodeJS 	| PHP 	|
-|-----------------	|-----------------	|----------------	|----------------	|
-| VM _(BEAM)_   | VM | VM _(V8)_    | Interpreter |
-| compiled 	| compiled 	| interpreted 	| interpreted 	|
-| multithreaded 	| multithreaded 	| singlethreaded 	| singlethreaded 	|
-| parallel, async 	| parallel, async 	| async 	| sequential 	|
-| messagepassing 	| method calls 	| eventloop 	| method calls 	|
-
 # 
 \centering
 
 \begin{Huge}
-Comparing Handling \\ of HTTP Requests
+Comparing Runtimes and Handling of HTTP Requests
 \end{Huge}
+
+# Runtimes
+
+\centering
+\large
+
+| Erlang 	        | Java 	            | NodeJS 	        | PHP 	            |
+|-----------------	|-----------------	|----------------	|----------------	|
+| VM _(BEAM)_       | VM                | VM _(V8)_         | Interpreter       |
+| compiled 	        | compiled 	        | interpreted 	    | interpreted 	    |
+| multithreaded 	| multithreaded 	| singlethreaded 	| singlethreaded 	|
+| parallel, async 	| parallel, async 	| async 	        | sequential 	    |
+| messagepassing 	| method calls 	    | event-driven 	    | method calls 	    |
 
 
 # PHP: HTTP Request
@@ -91,6 +89,12 @@ Comparing Handling \\ of HTTP Requests
 
 ![](img/phpfcgi_with_dpi.png)
 
+
+# NodeJS: HTTP Request
+
+\centering
+
+![](img/nodejs_vs_threads_with_dpi.png)
 
 
 # NodeJS: HTTP Request
@@ -125,6 +129,21 @@ server.listen(80);
 \centering
 
 ![](img/erlang_system_with_dpi.png)
+
+
+# Result
+
+\centering
+\Huge
+
+Erlang ...
+
+\Large
+
+* has a VM like __Java__
+* does async IO like __NodeJS__
+* handles request like __PHP__
+* additionally does _messaging_
 
 
 # 
