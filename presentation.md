@@ -17,7 +17,7 @@ and how does it work?
 \centering
 \Large
 
-* Programming Language from 1987 by Ericsson
+* Programming Language by Ericsson from 1987
 * Functional & Concurrent
 * Strong dynamicaly typed
 * Influencing
@@ -25,30 +25,57 @@ and how does it work?
     * To: Clojure, Scala, Elixir
 * Running on `BEAM` Virtual Machine
 * Using `OTP Framework`
-* Named after _Agner Krarup Erlang_ or __Er__icsson __lang__uage
+* Named after _Agner Krarup Erlang_
+* ... or __Er__icsson __lang__uage
 
 
 
 # Erlang Applications
 
-* membase
-* riak
-* rabbitmq
-* CouchDB
-* eJabberD
+\centering
+\Huge
+
+![](img/membase-logo_with_dpi.png) &nbsp;&nbsp;&nbsp;&nbsp; ![](img/rabbitmq-logo_with_dpi.jpg)
 
 
-# Comparing
+![](img/couchdb-logo_with_dpi.png) &nbsp;&nbsp;&nbsp;&nbsp; ![](img/riak_logo.png)
+
+![](img/ejabberd_logo_with_dpi.jpg) &nbsp;&nbsp;&nbsp;&nbsp; ![](img/simpledb_logo_with_dpi.jpg)
+
+...
+
+# Companies using Erlang
+
+* Facebook _(Chat)_
+* WhatsApp _(Chat)_
+* Klarna _(Mobile Payment)_
+* Basho _(Riak, ...)_
+* Amazon _(SimpleDB)_
+* Chef _(Server Automation)_
+* Plataformatec _(Elixir creator)_
+* Kato _(Groupchat)_
+* TipBit _(Mailapp)_
+* Sqor _(Sport App/News)_
+* 2600hz _(VoIP Platform)_
+* __Adds__: AddRoll, OpenX, ...
+* __Browsergames__: BigPoint, Spilgames, MachineZone, ...
+* ...
+    
+
+
+
+# Comparing Runtimes
 
 \centering
 \large
 
 | Erlang 	| Java 	| NodeJS 	| PHP 	|
 |-----------------	|-----------------	|----------------	|----------------	|
+| VM _(BEAM)_   | VM | VM _(V8)_    | Interpreter |
 | compiled 	| compiled 	| interpreted 	| interpreted 	|
 | multithreaded 	| multithreaded 	| singlethreaded 	| singlethreaded 	|
 | parallel, async 	| parallel, async 	| async 	| sequential 	|
-
+| messagepassing 	| method calls 	| eventloop 	| method calls 	|
 
 # 
 \centering
@@ -74,7 +101,9 @@ Comparing Handling \\ of HTTP Requests
 var http = require("http");
 
 var handler = function(request, response) {
-  response.writeHead(200, {"Content-Type": "text/plain"});
+  response.writeHead(200, {
+    "Content-Type": "text/plain"
+  });
   response.write("Hello World!");
   response.end();
 };
@@ -96,13 +125,14 @@ server.listen(80);
 \centering
 
 ![](img/erlang_system_with_dpi.png)
-<!--
-Erlang itself is the server, like NodeJS does.
-Either a new process is spawned or one is used from a worker pool.
-The Process starts with a empty state, each data has to be fetched from other processes, compareable to PHP.
-At the end of the request the process can stop.
-Processes of Requests could talk to each other.
--->
+
+
+# 
+\centering
+
+\begin{Huge}
+Erlang Runtime: BEAM VM
+\end{Huge}
 
 # BEAM Virtual Machine
 
@@ -112,7 +142,6 @@ Processes of Requests could talk to each other.
 * Compareable to Java VM
 * But can create _way more_ Processes
 * Processes scheduled inside BEAM, not OS
-
 * Processes send and receive Messages
 * Processes can have State and Name for PID
 
@@ -128,23 +157,11 @@ Processes of Requests could talk to each other.
 * Immutable Variables
 
 
-# Let it crash
-
-Supervisors can restart crashed processes
-  
-NO defense code
-
-Any error in code will crash process
-
--> shorter cleaner code
--> faster implem
--> Robust code  
--> handling all errors
-
 
 # Garbage Collection
 
-Each Process has its own GC
+![](img/erlang_garbage_collection_with_dpi.png)
+
 
 # 
 \centering
@@ -154,7 +171,28 @@ Thinking in Processes
 \end{Huge}
 
 
+
+
+# Let it crash
+
+![](img/erlang_process_restart_with_dpi.png)
+
+---------------------------------
+
+# Supervisors
+
+* Supervisors can restart crashed processes
+* Less defense code
+* Any error in code will crash process
+    * Shorter cleaner code
+    * Faster implementation
+    * Robust code handling __all__ errors
+
+
 # Elevator example
+
+\centering
+\Large
 
 * 3 Elevators
 * 10 Floors
@@ -162,8 +200,10 @@ Thinking in Processes
 How many Processes?
 
 # Process State and Messages
+\centering
+\Large
 
-* Each Process as its own state
+* Each Process has its own state
 * Data exchange via Messages
 * Messages handled like Transactions
 * Removing Deadlocks and Race Conditions
@@ -177,31 +217,37 @@ Thinking Functional
 
 
 # Functional Erlang
-
 \centering
+\Large
 
 * Not _fully_ functional
     * No complex Type System
+    * Not free of Side Effects
     * No currying
-    * ...
+    * No other "pure" FP
 * Immutable Variables
 * Small Functions
+* Pattern Matching
 
+<!--
 # Not free of Side Effects
+\centering
+\Large
 
 * Messages between Processes
 * Global Registry
 * Database
 * External Services
-
+-->
 
 # Alan Kay about OOP
 
+\centering
+\LARGE
+
 > "OOP to me means only messaging, local retention and protection and hiding of state-process, and extreme late-binding of all things."
 
-
 > [_Dr. Alan Kay_](http://userpage.fu-berlin.de/~ram/pub/pub_jf47ht81Ht/doc_kay_oop_en)
-
 
 
 # 
@@ -212,8 +258,10 @@ Coding Erlang
 \end{Huge}
 
 # Coding
+\Large
 
 * Variables start with capitals
+* Atoms start with lowercase
 * No type declarations
 * Short functions
 * Pattern matched function heads
@@ -245,8 +293,8 @@ fib(N) when N > 1 -> fib(N-1) + fib(N-2).
 % Matching on lists
 [First, Second, Third] = [1,2,3].
 
-% Matching deep strcutures
-{ok, {SomeName, [FirstValue | MoreValues]}} = do_something().
+% Matching deep structures
+{ok, {SomeName, [FirstValue | MoreValues]}} = a().
 ```
 
 # Immutable Variables
@@ -284,7 +332,51 @@ $ erl -s hello
 \centering
 
 ```erlang
-NEEDED? page 108
+-module(hello).
+-export([start/0, loop/0]).
+
+start() ->
+    Pid = spawn(hello, loop, []),
+    Pid ! hello.
+
+loop() ->
+    receive
+        hello ->
+            io:format("Hello World!")
+    end,
+    loop().
+```
+---------------------------------------------------
+
+\scriptsize
+
+```erlang
+-module(hello_process).
+-export([start/0, loop/0]).
+
+start() ->
+    Pid = spawn(?MODULE, loop, []),
+    register(hello, Pid),
+    timer:sleep(1000), whereis(hello) ! hello,
+    timer:sleep(1000), whereis(hello) ! {hello, "Julius"},
+    timer:sleep(1000), whereis(hello) ! ["Foo", bar].
+
+loop() ->
+    receive
+        hello ->
+			hello();
+		{hello, Name} ->
+			hello(Name);
+        Message ->
+			io:format("Unknown message: ~p\n", [Message])
+    end,
+    loop().
+
+hello() ->
+	hello("World").
+
+hello(Name) ->
+	io:format("Hello ~s!\n", [Name]).
 ```
 
 # 
@@ -294,16 +386,48 @@ NEEDED? page 108
 OTP
 \end{Huge}
 
+\begin{large}
+the standard library of erlang
+\end{large}
+
+
+# OTP
+\centering
+\Large
+
+* Supervisors
+* Behaviours
+    * gen_server
+    * gen_fsm
+    * gen_event
+* Applications
+
+
 # Learning Erlang
 
 \centering
 
-* erlang.org
-* Learn _You Some Erlang_ Book and Website
-* Book _Programming Erlang_
-* IRC Freenode #erlang and #erlounge
+* [erlang.org](erlang.org) and [erlangcentral.org](erlangcentral.org)
+* Books
+    * _Learn You Some Erlang_
+    * _Programming Erlang_
+    * _Erlang and OTP in Action_
+    * ...
+* IRC Freenode #erlang
 * Erlang Mailing List
 * Erlang Factory & Conferences
 
 
+# Erlang the Movie
+
+![](img/erlang-the-movie_with_dpi.png)
+
+
+
+# 
+\centering
+
+\begin{Huge}
+Thanks!
+\end{Huge}
 
