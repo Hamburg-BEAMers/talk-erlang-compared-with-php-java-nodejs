@@ -76,8 +76,9 @@ Comparing Runtimes and Handling of HTTP Requests
 
 | Erlang 	        | Java 	            | NodeJS 	        | PHP 	            |
 |-----------------	|-----------------	|----------------	|----------------	|
-| VM _(BEAM)_       | VM                | VM _(V8)_         | Interpreter       |
+| VM _(BEAM)_       | VM _(JVM)_        | VM _(V8)_         | Interpreter       |
 | compiled 	        | compiled 	        | interpreted 	    | interpreted 	    |
+| Native _(HIPE)_   | JIT _(HotSpot)_   | JIT _(V8)_ 	    | Cache _(APC)_     |
 | multithreaded 	| multithreaded 	| singlethreaded 	| singlethreaded 	|
 | parallel, async 	| parallel, async 	| async 	        | sequential 	    |
 | messagepassing 	| method calls 	    | event-driven 	    | method calls 	    |
@@ -143,7 +144,7 @@ Erlang ...
 * has a VM like __Java__
 * does async IO like __NodeJS__
 * handles request like __PHP__
-* additionally does _messaging_
+* additionally does __messaging__
 
 
 # 
@@ -159,22 +160,13 @@ Erlang Runtime: BEAM VM
 \Large
 
 * Compareable to Java VM
-* But can create _way more_ Processes
-* Processes scheduled inside BEAM, not OS
-* Processes send and receive Messages
-* Processes can have State and Name for PID
-
-
-
-# Features of BEAM VM
-
-\centering
-\huge
-
-* Microprocesses
+* But can create _millions_ of Processes
+    * Processes scheduled inside BEAM, not OS
+    * Processes send and receive Messages via own Mailbox
+    * Process is a tail-recursive function
+    * Processes can have State and Name for PID
 * Pattern Matching _(Not Regex)_
 * Immutable Variables
-
 
 
 # Garbage Collection
@@ -196,16 +188,16 @@ Thinking in Processes
 
 ![](img/erlang_process_restart_with_dpi.png)
 
----------------------------------
 
 # Supervisors
 
 * Supervisors can restart crashed processes
-* Less defense code
-* Any error in code will crash process
-    * Shorter cleaner code
-    * Faster implementation
-    * Robust code handling __all__ errors
+* Any error will crash process
+    * Less defense code
+    * Shorter cleaner code and faster implementation
+    * Robust handling __all__ errors
+    
+![](img/supervisor_tree_with_dpi.png)
 
 
 # Elevator example
@@ -213,11 +205,14 @@ Thinking in Processes
 \centering
 \Large
 
+![](img/elevators_with_dpi.jpg)
+
 * 3 Elevators
 * 10 Floors
 
 How many Processes?
 
+<!--
 # Process State and Messages
 \centering
 \Large
@@ -226,6 +221,7 @@ How many Processes?
 * Data exchange via Messages
 * Messages handled like Transactions
 * Removing Deadlocks and Race Conditions
+-->
 
 # 
 \centering
@@ -242,8 +238,7 @@ Thinking Functional
 * Not _fully_ functional
     * No complex Type System
     * Not free of Side Effects
-    * No currying
-    * No other "pure" FP
+    * No currying or other "pure" FP
 * Immutable Variables
 * Small Functions
 * Pattern Matching
@@ -269,6 +264,11 @@ Thinking Functional
 > [_Dr. Alan Kay_](http://userpage.fu-berlin.de/~ram/pub/pub_jf47ht81Ht/doc_kay_oop_en)
 
 
+\tiny
+
+> Alan Curtis Kay (born May 17, 1940) is an American computer scientist. He has been elected a Fellow of the American Academy of Arts and Sciences, the National Academy of Engineering, and the Royal Society of Arts.
+> Won the __ACM Turing Award__ in 2003 for work on object-oriented programming.
+
 # 
 \centering
 
@@ -276,46 +276,69 @@ Thinking Functional
 Coding Erlang
 \end{Huge}
 
-# Coding
+# Coding Erlang
 \Large
 
-* Variables start with capitals
-* Atoms start with lowercase
+* Variables start with capitals: `'Name'`
+* Atoms start with lowercase:   `'invalid_name'`
 * No type declarations
-* Short functions
-* Pattern matched function heads
-* Multiple function bodies
-* Commas, semicolons, dots, arrows
-* Small, stable (,easy) declarative Syntax
+* Syntax
+    * small, stable (,easy) declarative
+    * using Commas, semicolons, dots, arrows or nothing
+* Pattern Matching
+    * instead of assignments
+    * in Function heads $\rightarrow$ multiple function bodies
 
+<!--
 # Hello World!
 \centering
 
 ```erlang
 io:format("Hello World!").
 ```
-
-# Fibonacci
-\centering
-
-```erlang
-fib(0) -> 0;
-fib(1) -> 1;
-fib(N) when N > 1 -> fib(N-1) + fib(N-2).
-```
+-->
 
 # Pattern Matching
 
 \centering
+\large
+
+```erlang
+% Matching, NOT assign
+A = 42.
+
+% Creating a tuple
+Result = {ok, A}.
+
+% Matching on tuple
+{ok, ResultValue} = Result.
+
+% Matching used like a `equal` comparision.
+ResultValue = A.
+```
+
+------------------------------------
+
 
 ```erlang
 % Matching on lists
-[First, Second, Third] = [1,2,3].
+[First | Rest] = [1,2,3].
+
+[First, Second | AnotherRest] = [1,2,3].
+
 
 % Matching deep structures
-{ok, {SomeName, [FirstValue | MoreValues]}} = a().
+{foo, {bar, {baz, FooBarBaz}}} = foo(bar(baz())).
+
+
+% Errors
+{X, Y} = {1, 2}.
+** exception error:
+    no match of right hand side value {2, 3}
+{X, Y} = {2, 3}.
 ```
 
+<!--
 # Immutable Variables
 
 \centering
@@ -329,6 +352,24 @@ A = A + 8. % will crash
 B = 42.
 A = B + 8.
 ```
+-->
+
+
+# Example: Fibonacci
+\centering
+\Large
+
+```erlang
+fib(0) -> 0;
+fib(1) -> 1;
+fib(N) when N > 1 -> fib(N-1) + fib(N-2).
+```
+\normalsize
+
+* Function `'fib/1'` = Name/Arity
+* 3 bodies, depending on matched parameter
+* No return statement, last calculated value is used
+* Guard `'when N > 1'` additional to pattern matching
 
 
 # Hello World Module
@@ -351,11 +392,11 @@ $ erl -s hello
 \centering
 
 ```erlang
--module(hello).
+-module(hello_process).
 -export([start/0, loop/0]).
 
 start() ->
-    Pid = spawn(hello, loop, []),
+    Pid = spawn(?MODULE, loop, []),
     Pid ! hello.
 
 loop() ->
